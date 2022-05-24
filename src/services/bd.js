@@ -28,7 +28,16 @@ const getAllCompanies = (userId)=>{
 
 }
 
+const getPipelinesbyCompany = ( companyID, idPipeline ) => {
+   
+  const query = '';
+
+  return query
+
+}
+
 module.exports = {
   connect,
-  getAllCompanies
+  getAllCompanies,
+  getPipelinesbyCompany
 }
