@@ -2,11 +2,11 @@ const { response } = require('express');
 const config = require('../Config/db');
 
 // obtener candidato por id
-const getCandidateById = async(req, res = response) => {
+const getCandidateById = async (req, res = response) => {
 
     const connection = mysql.createConnection(config);
 
-    connection.connect(function(error) {
+    connection.connect(function (error) {
         if (error) throw error;
     });
 
@@ -35,22 +35,42 @@ const getCandidateById = async(req, res = response) => {
 
 
 //put
-const ActualizarCandidateById = async(req, res = response) => {
-    console.log(req);
-    const id = req.params.id;
-    res.json({
-        ok: true,
-        message: 'Evento actualizado',
+const ActualizarCandidateById = async (req, res = response) => {
+
+    const connection = mysql.createConnection(config);
+
+    connection.connect(function (error) {
+        if (error) throw error;
+    });
+
+     //obtiene el id del candidato
+     const id = req.params.id;
+     const body = req.body;
+
+     const query = actualizarCandidato(id, body.idPosicion, body.NombreCompleto, body.Email, body.Telefono, body.ResumenExperiencia, body.CartaPresentacion );
+
+     
+    //se ejecuta el query 
+    connection.query(query, (error, results) => {
+        if (error) throw error;
+
+        //respuesta del query
+        res.json({
+            ok: true,
+            message: 'Documentos del candidato obtenidos',
+            data: results
+        })
+
     });
 
 }
 
 //get
-const getDocumentosCandidato = async(req, res = response) => {
+const getDocumentosCandidato = async (req, res = response) => {
 
     const connection = mysql.createConnection(config);
 
-    connection.connect(function(error) {
+    connection.connect(function (error) {
         if (error) throw error;
     });
 
@@ -76,27 +96,27 @@ const getDocumentosCandidato = async(req, res = response) => {
 }
 
 //post
-const crearDocumentoCandidato = async(req, res = response) => {
+const crearDocumentoCandidato = async (req, res = response) => {
 
-        const id = req.params.id;
-        res.json({
-            ok: true,
-            message: 'Documentos del candidato creado',
-        });
+    const id = req.params.id;
+    res.json({
+        ok: true,
+        message: 'Documentos del candidato creado',
+    });
 
-    }
-    //post
-const crearEducacionCandidato = async(req, res = response) => {
+}
+//post
+const crearEducacionCandidato = async (req, res = response) => {
 
-        const id = req.params.id;
-        res.json({
-            ok: true,
-            message: 'Educacion del candidato creada',
-        });
+    const id = req.params.id;
+    res.json({
+        ok: true,
+        message: 'Educacion del candidato creada',
+    });
 
-    }
-    //put
-const actualizarPosicionCandidato = async(req, res = response) => {
+}
+//put
+const actualizarPosicionCandidato = async (req, res = response) => {
 
     const id = req.params.id;
     res.json({
@@ -107,7 +127,7 @@ const actualizarPosicionCandidato = async(req, res = response) => {
 }
 
 //post
-const guardarRespuestaCandidato = async(req, res = response) => {
+const guardarRespuestaCandidato = async (req, res = response) => {
 
     const id = req.params.id;
     res.json({
@@ -118,7 +138,7 @@ const guardarRespuestaCandidato = async(req, res = response) => {
 }
 
 //get
-const getCuestionariosCandidato = async(req, res = response) => {
+const getCuestionariosCandidato = async (req, res = response) => {
 
     const id = req.params.id;
     const idRespuesta = req.params.idRespuesta;
@@ -131,7 +151,7 @@ const getCuestionariosCandidato = async(req, res = response) => {
 }
 
 //put
-const actualizarTarjetaPuntuacionCandidato = async(req, res = response) => {
+const actualizarTarjetaPuntuacionCandidato = async (req, res = response) => {
 
     const id = req.params.id;
 
@@ -143,7 +163,7 @@ const actualizarTarjetaPuntuacionCandidato = async(req, res = response) => {
 }
 
 //put
-const moverCandidatoEtapa = async(req, res = response) => {
+const moverCandidatoEtapa = async (req, res = response) => {
 
     const id = req.params.id;
 
@@ -155,7 +175,7 @@ const moverCandidatoEtapa = async(req, res = response) => {
 }
 
 //get
-const getCandidatosPorPosicion = async(req, res = response) => {
+const getCandidatosPorPosicion = async (req, res = response) => {
 
     const idCompany = req.params.idCompany;
     const idPosicion = req.params.idPosicion;
@@ -168,7 +188,7 @@ const getCandidatosPorPosicion = async(req, res = response) => {
 }
 
 //post
-const crearCandidato = async(req, res = response) => {
+const crearCandidato = async (req, res = response) => {
 
     res.json({
         ok: true,
