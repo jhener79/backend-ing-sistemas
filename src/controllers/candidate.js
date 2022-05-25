@@ -2,11 +2,27 @@ const { response } = require('express');
 
 const getCandidateById = async(req, res = response) =>{
 
-    const id = req.params.id;
-    res.json({
-        ok: true,
-        message: 'Get candidato por Id',
+    const connection = mysql.createConnection(config);
+  
+    connection.connect(function(error) {
+        if (error) throw error;
     });
+
+    //Enviar el id del Usuario como parametro
+    const query = getAllCompanies(1)
+
+   connection.query(query, (error, results) => {
+       if(error) throw error;
+
+       res.json({
+           ok: true,
+           message: 'Get compañias',
+           data: results
+       });
+
+   })
+
+   connection.end();
 }
 
 const ActualizarCandidateById = async(req, res = response) => {
