@@ -24,7 +24,7 @@ const getAllCompanies = (userId)=>{
   ON eu.idEmpresa = e.idEmpresa 
   where eu.idUsuario = ${userId}`
 
-  return query
+  return query;
 
 }
 
@@ -36,8 +36,28 @@ const getPipelinesbyCompany = ( companyID, idPipeline ) => {
 
 }
 
+/** Consultas de Candidatos */
+
+const getCandidato = (idCandidato) => {
+
+  const query = `SELECT * FROM Solicitud where IdSolicitud = ${idCandidato}`;
+
+  return query;
+
+}
+
+const agregarEducacionCandidato = ( idCandidato, Escuela, gradoAlcanzado, campoEstudio, fechaInicio, fechaFin ) => {
+
+  const query = `INSERT INTO RRHH.Educacion values (${idCandidato}, ${Escuela}, ${gradoAlcanzado}, ${campoEstudio}, ${fechaInicio}, ${fechaFin}');`;
+
+  return query;
+
+}
+
 module.exports = {
   connect,
   getAllCompanies,
-  getPipelinesbyCompany
+  getPipelinesbyCompany,
+  getCandidato,
+  agregarEducacionCandidato
 }
