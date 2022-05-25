@@ -1,4 +1,5 @@
 const { response } = require('express');
+const config = require('../Config/db');
 
 const getCandidateById = async(req, res = response) =>{
 
@@ -9,7 +10,8 @@ const getCandidateById = async(req, res = response) =>{
     });
 
     //Enviar el id del Usuario como parametro
-    const query = getAllCompanies(1)
+    const id = req.params.id;
+    const query = getAllCompanies(id)
 
    connection.query(query, (error, results) => {
        if(error) throw error;
