@@ -1,6 +1,7 @@
 const { response } = require('express');
 const config = require('../Config/db');
 
+// obtener candidato por id
 const getCandidateById = async(req, res = response) =>{
 
     const connection = mysql.createConnection(config);
@@ -9,23 +10,32 @@ const getCandidateById = async(req, res = response) =>{
         if (error) throw error;
     });
 
-    //Enviar el id del Usuario como parametro
+    
+
+    //obtiene el id del candidato
     const id = req.params.id;
+
+    //Enviar el id del candidato como parametro al query
     const query = getAllCompanies(id)
 
-   connection.query(query, (error, results) => {
+    //se ejecuta el query 
+    connection.query(query, (error, results) => {
        if(error) throw error;
 
+       //respuesta del query
        res.json({
            ok: true,
-           message: 'Get compañias',
+           message: 'Datos del candidato obtenidos correctamente',
            data: results
        });
 
    })
 
+   // cierre de conexion a base de datos
    connection.end();
 }
+
+
 
 const ActualizarCandidateById = async(req, res = response) => {
     console.log(req);
