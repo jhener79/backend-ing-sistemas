@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config();
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
@@ -6,7 +7,7 @@ const swaggerUi = require('swagger-ui-express');
 
 const options = {
     definition: {
-        openapi: "3.0.0",
+        openapi: "3.0.1",
         info: {
             title: 'Portal de Empleos API',
             version: '1.0.0',
@@ -17,6 +18,18 @@ const options = {
                 url: "http://localhost:5000"
             }
         ],
+        // components: {
+        //     securitySchemes: {
+        //       bearerAuth: {
+        //         type: 'http',
+        //         scheme: 'bearer',
+        //         bearerFormat: 'JWT',
+        //       }
+        //     }
+        // },
+        // security: [{
+        //     bearerAuth: []
+        // }],
     },
     apis: ["./src/routes/*.js"],
 }
@@ -27,18 +40,16 @@ const app = express();
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
- // Settings
-app.set('port', 5000);
+// Middlewares
+app.use(express.json());
 
- // Middlewares
- app.use(express.json());
-
- // Routes
+// Routes
 app.use('/api/company', require('./src/routes/company'));
-app.use('/api/position',require('./src/routes/position'));
+app.use('/api/position', require('./src/routes/position'));
 app.use('/api/candidate', require('./src/routes/candidate'));
 
+
 // Starting Server
-app.listen(app.get('port'), () => {
-    console.log('Server on port 5000');
+app.listen(process.env.PORT, () => {
+    console.log(`Server on port ${process.env.PORT}`);
 });
