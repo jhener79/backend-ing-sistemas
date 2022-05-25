@@ -2,10 +2,10 @@ const { response } = require('express');
 const config = require('../Config/db');
 
 // obtener candidato por id
-const getCandidateById = async(req, res = response) =>{
+const getCandidateById = async(req, res = response) => {
 
     const connection = mysql.createConnection(config);
-  
+
     connection.connect(function(error) {
         if (error) throw error;
     });
@@ -18,23 +18,23 @@ const getCandidateById = async(req, res = response) =>{
 
     //se ejecuta el query 
     connection.query(query, (error, results) => {
-       if(error) throw error;
+        if (error) throw error;
 
-       //respuesta del query
-       res.json({
-           ok: true,
-           message: 'Datos del candidato obtenidos correctamente',
-           data: results
-       });
+        //respuesta del query
+        res.json({
+            ok: true,
+            message: 'Datos del candidato obtenidos correctamente',
+            data: results
+        });
 
-   })
+    })
 
-   // cierre de conexion a base de datos
-   connection.end();
+    // cierre de conexion a base de datos
+    connection.end();
 }
 
 
-
+//put
 const ActualizarCandidateById = async(req, res = response) => {
     console.log(req);
     const id = req.params.id;
@@ -48,34 +48,54 @@ const ActualizarCandidateById = async(req, res = response) => {
 //get
 const getDocumentosCandidato = async(req, res = response) => {
 
+    const connection = mysql.createConnection(config);
+
+    connection.connect(function(error) {
+        if (error) throw error;
+    });
+
+    //obtiene el id del candidato
     const id = req.params.id;
-    res.json({
-        ok: true,
-        message: 'Documentos del candidato',
+
+    //Enviar el id del candidato como parametro al query
+    const query = getAllCompanies(id)
+
+    //se ejecuta el query 
+    connection.query(query, (error, results) => {
+        if (error) throw error;
+
+        //respuesta del query
+        res.json({
+            ok: true,
+            message: 'Documentos del candidato obtenidos',
+            data: results
+        })
+
     });
 
 }
 
+//post
 const crearDocumentoCandidato = async(req, res = response) => {
 
-    const id = req.params.id;
-    res.json({
-        ok: true,
-        message: 'Documentos del candidato creado',
-    });
+        const id = req.params.id;
+        res.json({
+            ok: true,
+            message: 'Documentos del candidato creado',
+        });
 
-}
-
+    }
+    //post
 const crearEducacionCandidato = async(req, res = response) => {
 
-    const id = req.params.id;
-    res.json({
-        ok: true,
-        message: 'Educacion del candidato creada',
-    });
+        const id = req.params.id;
+        res.json({
+            ok: true,
+            message: 'Educacion del candidato creada',
+        });
 
-}
-
+    }
+    //put
 const actualizarPosicionCandidato = async(req, res = response) => {
 
     const id = req.params.id;
@@ -86,7 +106,8 @@ const actualizarPosicionCandidato = async(req, res = response) => {
 
 }
 
-const guardarRespuestaCandidato  = async(req, res = response) => {
+//post
+const guardarRespuestaCandidato = async(req, res = response) => {
 
     const id = req.params.id;
     res.json({
@@ -96,7 +117,8 @@ const guardarRespuestaCandidato  = async(req, res = response) => {
 
 }
 
-const getCuestionariosCandidato  = async(req, res = response) => {
+//get
+const getCuestionariosCandidato = async(req, res = response) => {
 
     const id = req.params.id;
     const idRespuesta = req.params.idRespuesta;
@@ -108,6 +130,7 @@ const getCuestionariosCandidato  = async(req, res = response) => {
 
 }
 
+//put
 const actualizarTarjetaPuntuacionCandidato = async(req, res = response) => {
 
     const id = req.params.id;
@@ -119,6 +142,7 @@ const actualizarTarjetaPuntuacionCandidato = async(req, res = response) => {
 
 }
 
+//put
 const moverCandidatoEtapa = async(req, res = response) => {
 
     const id = req.params.id;
@@ -130,6 +154,7 @@ const moverCandidatoEtapa = async(req, res = response) => {
 
 }
 
+//get
 const getCandidatosPorPosicion = async(req, res = response) => {
 
     const idCompany = req.params.idCompany;
@@ -142,7 +167,8 @@ const getCandidatosPorPosicion = async(req, res = response) => {
 
 }
 
-const crearCandidato  = async(req, res = response) => {
+//post
+const crearCandidato = async(req, res = response) => {
 
     res.json({
         ok: true,
