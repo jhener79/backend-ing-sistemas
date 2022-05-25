@@ -48,7 +48,7 @@ const getCandidato = (idCandidato) => {
 }
 
 /*Actualiza a un candidato en un puesto*/
-const putCandidato = (idCandidato, nombreCompleto, eMail, telefono,resumenExperiencia,cvUrl,cartaPresentacion) => {
+const putCandidato = (idCandidato, nombreCompleto, eMail, telefono, resumenExperiencia, cvUrl, cartaPresentacion) => {
 
   const query = `UPDATE Solicitud SET NombreCompleto=${nombreCompleto}, Email=${eMail}, Telefono=${telefono}, ResumenExperiencia =${resumenExperiencia}, CV_Url=${cvUrl}, CartaPresentacion=${cartaPresentacion} WHERE IdSolicitud = ${idCandidato}`;
 
@@ -69,5 +69,6 @@ module.exports = {
   getAllCompanies,
   getPipelinesbyCompany,
   getCandidato,
-  agregarEducacionCandidato
+  agregarEducacionCandidato,
+  putCandidato
 }
