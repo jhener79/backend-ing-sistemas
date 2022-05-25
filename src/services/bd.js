@@ -36,7 +36,7 @@ const getPipelinesbyCompany = ( companyID, idPipeline ) => {
 
 }
 
-/** Consultas de Candidatos */
+/** 3.	Endpoints Candidatos */
 
 /*	Recuperar candidato por id para el puesto dado */
 const getCandidato = (idCandidato) => {
@@ -48,7 +48,7 @@ const getCandidato = (idCandidato) => {
 }
 
 /*Actualiza a un candidato en un puesto*/
-const putCandidato = (idCandidato, nombreCompleto, eMail, telefono, resumenExperiencia, cvUrl, cartaPresentacion) => {
+const postCandidato = (idCandidato, nombreCompleto, eMail, telefono, resumenExperiencia, cvUrl, cartaPresentacion) => {
 
   const query = `UPDATE Solicitud SET NombreCompleto=${nombreCompleto}, Email=${eMail}, Telefono=${telefono}, ResumenExperiencia =${resumenExperiencia}, CV_Url=${cvUrl}, CartaPresentacion=${cartaPresentacion} WHERE IdSolicitud = ${idCandidato}`;
 
@@ -56,9 +56,67 @@ const putCandidato = (idCandidato, nombreCompleto, eMail, telefono, resumenExper
 
 }
 
-const agregarEducacionCandidato = ( idCandidato, Escuela, gradoAlcanzado, campoEstudio, fechaInicio, fechaFin ) => {
+/*	•	Recuperar documentos de candidatos por identificación para un puesto determinado */
+const getDocumentosCanditato = (idCandidato) => {
 
-  const query = `INSERT INTO RRHH.Educacion values (${idCandidato}, ${Escuela}, ${gradoAlcanzado}, ${campoEstudio}, ${fechaInicio}, ${fechaFin}');`;
+  const query = `SELECT urlDocumento from Documento WHERE IdSolicitud = ${idCandidato}`;
+
+  return query;
+
+}
+
+/*Agrega un nuevo documento para el candidato*/
+const putDocumentoCandidato = ( idDocumento, urlDocumento, idCandidato, posicion ) => {
+
+  const query = `INSERT INTO Documento values ((${idDocumento},(${urlDocumento},(${idCandidato},(${posicion});`;
+
+  return query;
+
+}
+/*Agrega una entrada de educación a un candidato*/
+const putEducacionCandidato = ( idCandidato, Escuela, gradoAlcanzado, campoEstudio, fechaInicio, fechaFin ) => {
+
+  const query = `INSERT INTO Educacion values (${idCandidato}, ${Escuela}, ${gradoAlcanzado}, ${campoEstudio}, ${fechaInicio}, ${fechaFin});`;
+
+  return query;
+
+}
+/*Mueve a un candidato de un puesto a otro*/
+const postCambiarPuestoCandidato = ( idCandidato, idPosicion ) => {
+
+  const query = `UPDATE Posicion SET IdPosicion=${idPosicion} WHERE IdSolicitud = ${idCandidato}`;
+
+  return query;
+
+}
+/*Guardar las respuestas de los candidatos a un cuestionario*/
+const putRespuestasCandidato = ( idRespuesta, idPregunta, respuesta, idSolicitud ) => {
+
+  const query = `INSERT INTO Respuesta values (${idRespuesta},${idPregunta},${respuesta},${idSolicitud});`;
+
+  return query;
+
+}
+/*	•	 Recuperar cuestionarios de candidato */
+const getCuestionariosCanditato = (idCandidato) => {
+
+  const query = `SELECT P.IdCuestionario, P.Pregunta, R.Respuesta from Respuesta R INNER JOIN Pregunta P ON R.IdPregunta=P.IdPregunta WHERE IdSolicitud = ${idCandidato}`;
+
+  return query;
+
+}
+/*Mover candidato a la etapa especificada*/
+const postCambiarEtapaCandidato = ( idCandidato, idEtapa ) => {
+
+  const query = `UPDATE Posicion SET IdEtapa=${idEtapa} WHERE IdSolicitud = ${idCandidato}`;
+
+  return query;
+
+}
+/*Añadir un nuevo candidato a un puesto*/
+const putAgregarCandidato = ( idCandidato, idPosicion, idEtapa, nombreCompleto, eMail, telefono, resumenExperiencia, cvUrl, cartaPresentacion ) => {
+
+  const query = `INSERT INTO Solicitud VALUES(IdSolicitud=${idCandidato}, IdPosicion=${idPosicion}, IdEtapa=${idEtapa}, NombreCompleto=${nombreCompleto}, Email=${eMail}, Telefono=${telefono}, ResumenExperiencia=${resumenExperiencia}, Cv_Url=${cvUrl}, CartaPresentacion=${cartaPresentacion});`;
 
   return query;
 
@@ -69,6 +127,13 @@ module.exports = {
   getAllCompanies,
   getPipelinesbyCompany,
   getCandidato,
-  agregarEducacionCandidato,
-  putCandidato
+  putDocumentoCandidato,
+  putEducacionCandidato,
+  postCandidato,
+  getDocumentosCanditato,
+  postCambiarPuestoCandidato,
+  putRespuestasCandidato,
+  getCuestionariosCanditato,
+  postCambiarEtapaCandidato,
+  putAgregarCandidato
 }
