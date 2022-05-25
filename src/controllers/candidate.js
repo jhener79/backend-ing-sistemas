@@ -10,8 +10,6 @@ const getCandidateById = async(req, res = response) =>{
         if (error) throw error;
     });
 
-    
-
     //obtiene el id del candidato
     const id = req.params.id;
 
@@ -47,6 +45,7 @@ const ActualizarCandidateById = async(req, res = response) => {
 
 }
 
+//get
 const getDocumentosCandidato = async(req, res = response) => {
 
     const id = req.params.id;
