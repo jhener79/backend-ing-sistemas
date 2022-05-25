@@ -38,9 +38,19 @@ const getPipelinesbyCompany = ( companyID, idPipeline ) => {
 
 /** Consultas de Candidatos */
 
+/*	Recuperar candidato por id para el puesto dado */
 const getCandidato = (idCandidato) => {
 
   const query = `SELECT * FROM Solicitud where IdSolicitud = ${idCandidato}`;
+
+  return query;
+
+}
+
+/*Actualiza a un candidato en un puesto*/
+const putCandidato = (idCandidato, nombreCompleto, eMail, telefono,resumenExperiencia,cvUrl,cartaPresentacion) => {
+
+  const query = `UPDATE Solicitud SET NombreCompleto=${nombreCompleto}, Email=${eMail}, Telefono=${telefono}, ResumenExperiencia =${resumenExperiencia}, CV_Url=${cvUrl}, CartaPresentacion=${cartaPresentacion} WHERE IdSolicitud = ${idCandidato}`;
 
   return query;
 
