@@ -2,7 +2,7 @@
  
 ## Getting Started
 
-### .env
+## .env
 
 Crear en la raiz del proyecto un archivo .env conteniendo el puerto en el cual operará el servidor
 
@@ -11,7 +11,7 @@ PORT=5000
 ```
 
 
-### Configuracion conexion Base de Datos
+## Configuracion conexion Base de Datos
 
 Definir los parametros de conexion del servidor de base de datos en 
 
@@ -19,7 +19,7 @@ Definir los parametros de conexion del servidor de base de datos en
 
 
 
-### Instalación de dependencias
+## Instalación de dependencias
 
 En la raiz del proyecto ejecutar el siguiente comando:
 
