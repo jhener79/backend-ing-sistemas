@@ -9,7 +9,9 @@ const { getCandidato,
     postRespuestasCandidato, 
     putCambiarPuestoCandidato, 
     getCuestionariosCanditato,
-    putCambiarEtapaCandidato
+    putCambiarEtapaCandidato,
+    getCandidatoPosicion,
+    postAgregarCandidato
 } = require('../services/bd');
 
 // obtener candidato por id
@@ -304,7 +306,7 @@ const moverCandidatoEtapa = async (req, res = response) => {
     const id = req.params.id;
     const body = req.body;
 
-    const query = putCambiarEtapaCandidato(id, body);
+    const query = putCambiarEtapaCandidato(id, body.IdEtapa);
 
 
     //se ejecuta el query 
@@ -333,9 +335,10 @@ const getCandidatosPorPosicion = async (req, res = response) => {
 
     //obtiene el id del candidato
     const id = req.params.id;
+    const idPosicion =  req.params.idPosicion;
 
     //Enviar el id del candidato como parametro al query
-    const query = getAllCompanies(id)
+    const query = getCandidatoPosicion(id, idPosicion)
 
     //se ejecuta el query 
     connection.query(query, (error, results) => {
@@ -361,10 +364,9 @@ const crearCandidato = async (req, res = response) => {
     });
 
     //obtiene el id del candidato
-    const id = req.params.id;
     const body = req.body;
 
-    const query = actualizarCandidato(id, body);
+    const query = postAgregarCandidato(body.IdPosicion, body.IdEtapa, body.NombreCompleto,  body.Email, body.Telefono, body.ResumenExperiencia, body.CartaPresentacion);
 
 
     //se ejecuta el query 
@@ -374,7 +376,7 @@ const crearCandidato = async (req, res = response) => {
         //respuesta del query
         res.json({
             ok: true,
-            message: 'Actualizada la etapa del candidato',
+            message: 'Candidato creado',
             data: results
         })
 

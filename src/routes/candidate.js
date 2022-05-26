@@ -254,7 +254,7 @@ router.put('/:id/move', actualizarPosicionCandidato);
  * @swagger
  * /api/candidate/{id}/questionnaire/{idPregunta}:
  *   post:
- *     summary: Crear una entrada de educacion para el candidato.
+ *     summary: Crear una respuesta a las preguntas del candidato.
  *     tags: [Candidatos]
  *     parameters:
  *      - in: path
@@ -410,7 +410,7 @@ router.put('/:id/stage', moverCandidatoEtapa);
  *              type: array            
  *
  */
-router.get('/:idCompany/:idPosicion', getCandidatosPorPosicion);
+router.get('/:id/:idPosicion', getCandidatosPorPosicion);
 
 /**
  * @swagger

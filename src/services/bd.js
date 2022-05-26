@@ -111,7 +111,10 @@ const postRespuestasCandidato = ( idPregunta, respuesta, idSolicitud) => {
 /*	•	 Recuperar cuestionarios de candidato */
 const getCuestionariosCanditato = (idCandidato) => {
 
-  const query = `SELECT P.IdCuestionario, P.Pregunta, R.Respuesta from Respuesta R INNER JOIN Pregunta P ON R.IdPregunta=P.IdPregunta WHERE IdSolicitud = ${idCandidato}`;
+  const query = `SELECT c.Descripcion FROM posicion p 
+  INNER JOIN solicitud s ON s.IdPosicion = p.IdPosicion
+  INNER JOIN cuestionario c ON c.IdCuestionario = p.IdCuestionario
+  WHERE s.IdSolicitud = ${idCandidato}`;
 
   return query;
 
@@ -119,17 +122,25 @@ const getCuestionariosCanditato = (idCandidato) => {
 /*Mover candidato a la etapa especificada*/
 const putCambiarEtapaCandidato = (idCandidato, idEtapa) => {
 
-  const query = `UPDATE Posicion SET IdEtapa=${idEtapa} WHERE IdSolicitud = ${idCandidato}`;
+  const query = `UPDATE solicitud SET IdEtapa=${idEtapa} WHERE IdSolicitud = ${idCandidato}`;
 
   return query;
 
 }
+/** Recuperar candidatos por posicion */
+const getCandidatoPosicion = (IdCandidato, IdPosicion) => {
+
+  const query = `select * from solicitud where IdSolicitud = ${IdCandidato} and IdPosicion = ${IdPosicion}`;
+
+  return query
+
+}
 /*Añadir un nuevo candidato a un puesto*/
-const postAgregarCandidato = (idCandidato, idPosicion, idEtapa, nombreCompleto, eMail, telefono, resumenExperiencia, cvUrl, cartaPresentacion) => {
+const postAgregarCandidato = (idPosicion, idEtapa, nombreCompleto, eMail, telefono, resumenExperiencia, cartaPresentacion) => {
 
-  const query = `INSERT INTO Solicitud VALUES(IdSolicitud=${idCandidato}, IdPosicion=${idPosicion}, IdEtapa=${idEtapa}, NombreCompleto=${nombreCompleto}, Email=${eMail}, Telefono=${telefono}, ResumenExperiencia=${resumenExperiencia}, Cv_Url=${cvUrl}, CartaPresentacion=${cartaPresentacion});`;
+  const query = `INSERT INTO solicitud (IdPosicion, IdEtapa, NombreCompleto, Email, Telefono, ResumenExperiencia, CartaPresentacion) VALUES (${idPosicion}, ${idEtapa}, "${nombreCompleto}", "${eMail}", "${telefono}", "${resumenExperiencia}", "${cartaPresentacion}")`;
 
-  return query;
+  return query; 
 
 }
 
@@ -146,5 +157,6 @@ module.exports = {
   postRespuestasCandidato,
   getCuestionariosCanditato,
   putCambiarEtapaCandidato,
+  getCandidatoPosicion,
   postAgregarCandidato
 }
