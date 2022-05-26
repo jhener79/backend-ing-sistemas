@@ -28,7 +28,7 @@ const router = Router();
  * @swagger
  * /api/candidate/{id}:
  *  get:
- *    summary: Retorna el candidato por el ID dado
+ *    summary: Devuelve el candidato por el ID dado
  *    tags: [Candidatos]
  *    parameters:
  *      - in: path
