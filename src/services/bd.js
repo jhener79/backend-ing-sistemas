@@ -28,9 +28,45 @@ const getAllCompanies = (userId) => {
 
 }
 
-const getPipelinesbyCompany = (companyID, idPipeline) => {
+const getCompany = (companyID) => {
 
-  const query = '';
+  const query = `SELECT * FROM empresa where IdEmpresa = ${companyID}`;
+
+  return query;
+
+}
+
+const getEtapasPipelineEmpresa = (companyID, pipelineID) => {
+  
+  const query = `Select Descripcion from pipeline where IdEmpresa = ${companyID} and IdPipeline = ${pipelineID}`;
+
+  return query;
+
+}
+
+const getPipelinesbyCompany = (companyID) => {
+
+  const query = `Select Descripcion from pipeline where IdEmpresa = ${companyID}`;
+
+  return query
+
+}
+
+const getCuestionarioEmpresa = (companyID, cuestionarioID) =>{
+
+  const query = `select c.Descripcion from posicion p
+  INNER JOIN cuestionario c ON c.IdCuestionario = p.IdCuestionario
+  where p.IdCuestionario = ${cuestionarioID} and p.IdEmpresa = ${companyID}`;
+
+  return query
+
+}
+
+const getCuestionariosEmpresa = (companyID) => {
+
+  const query = `select c.Descripcion from posicion p
+  INNER JOIN cuestionario c ON c.IdCuestionario = p.IdCuestionario
+  where  p.IdEmpresa = ${companyID}`;
 
   return query
 
@@ -147,7 +183,11 @@ const postAgregarCandidato = (idPosicion, idEtapa, nombreCompleto, eMail, telefo
 module.exports = {
   connect,
   getAllCompanies,
+  getCompany,
+  getEtapasPipelineEmpresa,
   getPipelinesbyCompany,
+  getCuestionarioEmpresa,
+  getCuestionariosEmpresa,
   getCandidato,
   postDocumentoCandidato,
   postEducacionCandidato,
