@@ -20,7 +20,7 @@ const router = Router();
  *      - in: path
  *        name: id
  *        schema:
- *          type: string
+ *          type: integer
  *        required: true
  *        description: Id de la posicion
  *    responses:
@@ -42,9 +42,9 @@ router.get('/:id', getPositionById);
  *     tags: [Posiciones]
  *     parameters:
  *      - in: path
- *        name: idPuesto
+ *        name: id
  *        schema:
- *          type: string
+ *          type: integer
  *        required: true
  *        description: Id del puesto
  *     requestBody:
@@ -83,32 +83,36 @@ router.get('/:id', getPositionById);
  *                 description: Identificador de solicitud
  *                 example: 1
  *              IdCategoria:
- *                 type: string
+ *                 type: integer
  *                 description: Id de la categoria del puesto
  *                 example: 1
  *              IdExperiencia:
- *                 type: string
+ *                 type: integer
  *                 description: Id de la experiencia requerida del puesto
  *                 example: 1
  *              IdEducacion:
- *                 type: string
+ *                 type: integer
  *                 description: Id del nivel de educacion minimo
  *                 example: 1
  *              IdCuestionario:
- *                 type: string
+ *                 type: integer
  *                 description: Id del cuestionario
  *                 example: 1
  *              IdPipeline:
- *                 type: string
+ *                 type: integer
  *                 description: Id del proceso de seleccion
  *                 example: 1
  *              IdTipoPosicion:
- *                 type: string
+ *                 type: integer
  *                 description: Id del tipo de posicion
  *                 example: 1
  *              IdEmpresa:
- *                 type: string
+ *                 type: integer
  *                 description: Id de la empresa
+ *                 example: 1
+ *              Etiqueta:
+ *                 type: string
+ *                 description: 1 o 0
  *                 example: 1
  *     responses:
  *      200:
@@ -128,9 +132,9 @@ router.put('/:id', actualizarPuesto);
  *     tags: [Posiciones]
  *     parameters:
  *      - in: path
- *        name: idPuesto
+ *        name: id
  *        schema:
- *          type: string
+ *          type: integer
  *        required: true
  *        description: Id del puesto
  *     requestBody:
@@ -164,7 +168,7 @@ router.put('/:id/state', actualizarEstadoPuesto);
  *      - in: path
  *        name: id
  *        schema:
- *          type: string
+ *          type: integer
  *        required: true
  *        description: Id de la empresa
  *      - in: path
@@ -184,6 +188,87 @@ router.put('/:id/state', actualizarEstadoPuesto);
  */
 router.get('/:id/:idEstado', getTodosPuestosPorEstado);
 
+/**
+ * @swagger
+ * /api/position/:
+ *   post:
+ *     summary: Actualizar Estado de Puesto.
+ *     tags: [Posiciones]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *              Nombre:
+ *                 type: string
+ *                 description: Nombre del puesto
+ *                 example: 1
+ *              Descripcion:
+ *                 type: string
+ *                 description: Descripcion del puesto
+ *                 example: 1
+ *              Ubicacion:
+ *                 type: string
+ *                 description: Ubicacion
+ *                 example: 1
+ *              Departamento:
+ *                 type: string
+ *                 description: Departamento
+ *                 example: 1
+ *              Otro_atributo:
+ *                 type: string
+ *                 description: Otros atributos
+ *                 example: 1
+ *              Etiquetas:
+ *                 type: string
+ *                 description: Etiquetas del puesto
+ *                 example: 1
+ *              Identificador_solicitud:
+ *                 type: string
+ *                 description: Identificador de solicitud
+ *                 example: 1
+ *              IdCategoria:
+ *                 type: integer
+ *                 description: Id de la categoria del puesto
+ *                 example: 1
+ *              IdExperiencia:
+ *                 type: integer
+ *                 description: Id de la experiencia requerida del puesto
+ *                 example: 1
+ *              IdEducacion:
+ *                 type: integer
+ *                 description: Id del nivel de educacion minimo
+ *                 example: 1
+ *              IdCuestionario:
+ *                 type: integer
+ *                 description: Id del cuestionario
+ *                 example: 1
+ *              IdPipeline:
+ *                 type: integer
+ *                 description: Id del proceso de seleccion
+ *                 example: 1
+ *              IdTipoPosicion:
+ *                 type: integer
+ *                 description: Id del tipo de posicion
+ *                 example: 1
+ *              IdEmpresa:
+ *                 type: integer
+ *                 description: Id de la empresa
+ *                 example: 1
+ *              Etiqueta:
+ *                 type: string
+ *                 description: 1 o 0
+ *                 example: 1
+ *     responses:
+ *      200:
+ *        description: Puesto Actualizado
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array  
+*/
 router.post('/', crearPuesto);
 
 module.exports = router;

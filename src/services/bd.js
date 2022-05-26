@@ -180,6 +180,65 @@ const postAgregarCandidato = (idPosicion, idEtapa, nombreCompleto, eMail, telefo
 
 }
 
+const getPosicionPorID = (idPosicion) => {
+
+  const query = `select * from posicion where IdPosicion = ${idPosicion}`;
+
+  return query;
+
+}
+
+const putPosicion = (id, body) => {
+
+  const query = `UPDATE posicion 
+    SET Nombre ="${body.Nombre}", Descripcion ="${body.Descripcion}", 
+    Ubicacion ="${body.Ubicacion}", Departamento ="${body.Departamento}", 
+    Otro_atributo ="${body.Otro_atributo}", Etiquetas ="${body.Etiquetas}", 
+    Identificador_solicitud ="${body.Identificador_solicitud}", 
+    IdCategoria = ${body.IdCtegoria}, IdExperiencia = ${body.IdExperiencia}, 
+    IdEducacion = ${body.IdEducacion}, IdCuestionario = ${body.IdCuestionario}, 
+    IdPipeline = ${body.IdPipeline}, IdTipoPosicion = ${body.IdTipoPosicion}, 
+    IdEmpresa = ${body.IdEmpresa}, Estado = "${body.Estado} where IdPosicion = ${id}`;
+
+  return query;
+
+}
+
+const putEstadoPosicion = (id, Estado) => {
+
+  const query = `UPDATE posicion SET Estado = "${Estado} where IdPosicion = ${id}"`
+
+  return query;
+
+}
+
+const getPosicionEstado = (id, idEstado) => {
+
+  const query = `select * from posicion where Estado = ${idEstado} and IdEmpresa = ${id}"`
+
+  return query;
+
+}
+
+const postPosicion = (id, body) => {
+
+  const query = `INSERT INTO posicion
+    (Nombre, Descripcion, Ubicacion, Departamento, Otro_atributo, Etiquetas, 
+    Identificador_solicitud, IdCategoria, IdExperiencia, IdEducacion, IdCuestionario,
+    IdPipeline, IdTipoPosicion, IdEmpresa, Estado)
+    values ("${body.Nombre}", "${body.Descripcion}", 
+    "${body.Ubicacion}", "${body.Departamento}", 
+    "${body.Otro_atributo}", "${body.Etiquetas}", 
+    "${body.Identificador_solicitud}", 
+    ${body.IdCtegoria}, ${body.IdExperiencia}, 
+    ${body.IdEducacion}, ${body.IdCuestionario}, 
+    ${body.IdPipeline}, ${body.IdTipoPosicion}, 
+    ${body.IdEmpresa}, "${body.Estado})`;
+
+  return query;
+
+}
+
 module.exports = {
   connect,
   getAllCompanies,
@@ -198,5 +257,10 @@ module.exports = {
   getCuestionariosCanditato,
   putCambiarEtapaCandidato,
   getCandidatoPosicion,
-  postAgregarCandidato
+  postAgregarCandidato,
+  getPosicionPorID,
+  putPosicion,
+  putEstadoPosicion,
+  getPosicionEstado,
+  postPosicion
 }

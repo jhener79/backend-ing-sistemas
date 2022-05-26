@@ -63,7 +63,7 @@ const ActualizarCandidateById = async (req, res = response) => {
     //obtiene el id del candidato
     const id = req.params.id;
     const body = req.body;
-    console.log(id);
+
     const query = putCandidato(id, body.NombreCompleto, body.Email, body.Telefono, body.ResumenExperiencia, body.CartaPresentacion);
 
 
