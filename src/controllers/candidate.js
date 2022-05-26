@@ -20,7 +20,11 @@ const getCandidateById = async (req, res = response) => {
     const connection = mysql.createConnection(config);
 
     connection.connect(function (error) {
-        if (error) throw error;
+        if (error) {
+            throw error
+        }else {
+            console.log("BD Connectada!");
+          }
     });
 
     //obtiene el id del candidato
