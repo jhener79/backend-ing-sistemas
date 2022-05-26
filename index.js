@@ -4,7 +4,7 @@ const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
 
-
+// Definiendo parametros de configuracion para Swagger
 const options = {
     definition: {
         openapi: "3.0.1",
@@ -18,26 +18,16 @@ const options = {
                 url: "http://localhost:5000"
             }
         ],
-        // components: {
-        //     securitySchemes: {
-        //       bearerAuth: {
-        //         type: 'http',
-        //         scheme: 'bearer',
-        //         bearerFormat: 'JWT',
-        //       }
-        //     }
-        // },
-        // security: [{
-        //     bearerAuth: []
-        // }],
     },
     apis: ["./src/routes/*.js"],
 }
 
 const specs = swaggerJsDoc(options);
 
+// Inicializando express
 const app = express();
 
+// Definiendo la ruta para la documentacion con Swagger
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 // Middlewares

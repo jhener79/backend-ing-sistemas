@@ -1,125 +1,389 @@
+const mysql = require('mysql');
 const { response } = require('express');
+const config = require('../Config/db');
+const { getCandidato, 
+    putCandidato, 
+    getDocumentosCanditato, 
+    postDocumentoCandidato, 
+    postEducacionCandidato, 
+    postRespuestasCandidato, 
+    putCambiarPuestoCandidato, 
+    getCuestionariosCanditato,
+    putCambiarEtapaCandidato,
+    getCandidatoPosicion,
+    postAgregarCandidato
+} = require('../services/bd');
 
-const getCandidateById = async(req, res = response) =>{
+// obtener candidato por id
+const getCandidateById = async (req, res = response) => {
 
-    const id = req.params.id;
-    res.json({
-        ok: true,
-        message: 'Get candidato por Id',
-    });
-}
+    const connection = mysql.createConnection(config);
 
-const ActualizarCandidateById = async(req, res = response) => {
-    console.log(req);
-    const id = req.params.id;
-    res.json({
-        ok: true,
-        message: 'Evento actualizado',
-    });
-
-}
-
-const getDocumentosCandidato = async(req, res = response) => {
-
-    const id = req.params.id;
-    res.json({
-        ok: true,
-        message: 'Documentos del candidato',
-    });
-
-}
-
-const crearDocumentoCandidato = async(req, res = response) => {
-
-    const id = req.params.id;
-    res.json({
-        ok: true,
-        message: 'Documentos del candidato creado',
+    connection.connect(function (error) {
+        if (error) {
+            throw error
+        }else {
+            console.log("BD Connectada!");
+          }
     });
 
-}
-
-const crearEducacionCandidato = async(req, res = response) => {
-
-    const id = req.params.id;
-    res.json({
-        ok: true,
-        message: 'Educacion del candidato creada',
-    });
-
-}
-
-const actualizarPosicionCandidato = async(req, res = response) => {
-
-    const id = req.params.id;
-    res.json({
-        ok: true,
-        message: 'Posicion del candidato actualizada',
-    });
-
-}
-
-const guardarRespuestaCandidato  = async(req, res = response) => {
-
-    const id = req.params.id;
-    res.json({
-        ok: true,
-        message: 'Respuesta guardada',
-    });
-
-}
-
-const getCuestionariosCandidato  = async(req, res = response) => {
-
-    const id = req.params.id;
-    const idRespuesta = req.params.idRespuesta;
-
-    res.json({
-        ok: true,
-        message: 'Cuestionarios del candidato',
-    });
-
-}
-
-const actualizarTarjetaPuntuacionCandidato = async(req, res = response) => {
-
+    //obtiene el id del candidato
     const id = req.params.id;
 
-    res.json({
-        ok: true,
-        message: 'Tarjeta de puntuacion actualizada',
-    });
+    //Enviar el id del candidato como parametro al query
+    const query = getCandidato(id)
 
+    //se ejecuta el query 
+    connection.query(query, (error, results) => {
+        if (error) throw error;
+
+        //respuesta del query
+        res.json({
+            ok: true,
+            message: 'Datos del candidato obtenidos correctamente',
+            data: results
+        });
+
+    })
+
+    // cierre de conexion a base de datos
+    connection.end();
 }
 
-const moverCandidatoEtapa = async(req, res = response) => {
 
+//put
+const ActualizarCandidateById = async (req, res = response) => {
+
+    const connection = mysql.createConnection(config);
+
+    connection.connect(function (error) {
+        if (error) throw error;
+    });
+
+    //obtiene el id del candidato
+    const id = req.params.id;
+    const body = req.body;
+    console.log(id);
+    const query = putCandidato(id, body.NombreCompleto, body.Email, body.Telefono, body.ResumenExperiencia, body.CartaPresentacion);
+
+
+    //se ejecuta el query 
+    connection.query(query, (error, results) => {
+        if (error) throw error;
+
+        //respuesta del query
+        res.json({
+            ok: true,
+            message: 'Candidato Actualizado',
+        })
+
+    });
+
+    // cierre de conexion a base de datos
+    connection.end();
+    
+}
+
+//get
+const getDocumentosCandidato = async (req, res = response) => {
+
+    const connection = mysql.createConnection(config);
+
+    connection.connect(function (error) {
+        if (error) throw error;
+    });
+
+    //obtiene el id del candidato
     const id = req.params.id;
 
-    res.json({
-        ok: true,
-        message: 'Actualizada la etapa del candidato',
+    //Enviar el id del candidato como parametro al query
+    const query = getDocumentosCanditato(id)
+
+    //se ejecuta el query 
+    connection.query(query, (error, results) => {
+        if (error) throw error;
+
+        //respuesta del query
+        res.json({
+            ok: true,
+            message: 'Documentos del candidato obtenidos',
+            data: results
+        })
+
     });
 
 }
 
-const getCandidatosPorPosicion = async(req, res = response) => {
+//post
+const crearDocumentoCandidato = async (req, res = response) => {
 
-    const idCompany = req.params.idCompany;
-    const idPosicion = req.params.idPosicion;
+    const connection = mysql.createConnection(config);
 
-    res.json({
-        ok: true,
-        message: 'Actualizada la etapa del candidato',
+    connection.connect(function (error) {
+        if (error) throw error;
+    });
+
+    //obtiene el id del candidato
+    const id = req.params.id;
+    const body = req.body;
+
+    const query = postDocumentoCandidato(body.urlDocumento,id, body.posicion);
+
+
+    //se ejecuta el query 
+    connection.query(query, (error, results) => {
+        if (error) throw error;
+
+        //respuesta del query
+        res.json({
+            ok: true,
+            message: 'Documento del candidato creado',
+            data: results
+        })
+
+    });
+
+}
+//post
+const crearEducacionCandidato = async (req, res = response) => {
+
+    const connection = mysql.createConnection(config);
+
+    connection.connect(function (error) {
+        if (error) throw error;
+    });
+
+    //obtiene el id del candidato
+    const id = req.params.id;
+    const body = req.body;
+
+    const query = postEducacionCandidato(id, body.Escuela, body.GradoAlcanzado, body.CampoEstudio, body.FechaInicio, body.FechaFin);
+
+
+    //se ejecuta el query 
+    connection.query(query, (error, results) => {
+        if (error) throw error;
+
+        //respuesta del query
+        res.json({
+            ok: true,
+            message: 'Educacion del candidato creada',
+            data: results
+        })
+
+    });
+
+}
+//put
+const actualizarPosicionCandidato = async (req, res = response) => {
+
+    const connection = mysql.createConnection(config);
+
+    connection.connect(function (error) {
+        if (error) throw error;
+    });
+
+    //obtiene el id del candidato
+    const id = req.params.id;
+    const body = req.body;
+
+    const query = putCambiarPuestoCandidato(id, body.idPosicion);
+
+
+    //se ejecuta el query 
+    connection.query(query, (error, results) => {
+        if (error) throw error;
+
+        //respuesta del query
+        res.json({
+            ok: true,
+            message: 'Posicion del candidato actualizada',
+            data: results
+        })
+
     });
 
 }
 
-const crearCandidato  = async(req, res = response) => {
+//post
+const guardarRespuestaCandidato = async (req, res = response) => {
 
-    res.json({
-        ok: true,
-        message: 'Actualizada la etapa del candidato',
+    const connection = mysql.createConnection(config);
+
+    connection.connect(function (error) {
+        if (error) throw error;
+    });
+
+    //obtiene el id del candidato 
+    const id = req.params.id;
+    const idPregunta = req.params.idPregunta;
+    const body = req.body;
+
+    const query = postRespuestasCandidato(idPregunta, body.respuesta, id);
+
+
+    //se ejecuta el query 
+    connection.query(query, (error, results) => {
+        if (error) throw error;
+
+        //respuesta del query
+        res.json({
+            ok: true,
+            message: 'Respuesta del candidato guaradada',
+            data: results
+        })
+
+    });
+
+}
+
+//get
+const getCuestionariosCandidato = async (req, res = response) => {
+
+    const connection = mysql.createConnection(config);
+
+    connection.connect(function (error) {
+        if (error) throw error;
+    });
+
+    //obtiene el id del candidato
+    const id = req.params.id;
+
+    //Enviar el id del candidato como parametro al query
+    const query = getCuestionariosCanditato(id)
+
+    //se ejecuta el query 
+    connection.query(query, (error, results) => {
+        if (error) throw error;
+
+        //respuesta del query
+        res.json({
+            ok: true,
+            message: 'Cuestionarios del candidato obtenidos correctamente',
+            data: results
+        });
+
+    })
+}
+
+//put
+const actualizarTarjetaPuntuacionCandidato = async (req, res = response) => {
+
+    const connection = mysql.createConnection(config);
+
+    connection.connect(function (error) {
+        if (error) throw error;
+    });
+
+    //obtiene el id del candidato
+    const id = req.params.id;
+    const body = req.body;
+
+    const query = actualizarCandidato(id, body);
+
+
+    //se ejecuta el query 
+    connection.query(query, (error, results) => {
+        if (error) throw error;
+
+        //respuesta del query
+        res.json({
+            ok: true,
+            message: 'Tarjeta de puntuacion actualizada',
+            data: results
+        })
+
+    });
+
+}
+
+//put
+const moverCandidatoEtapa = async (req, res = response) => {
+
+    const connection = mysql.createConnection(config);
+
+    connection.connect(function (error) {
+        if (error) throw error;
+    });
+
+    //obtiene el id del candidato
+    const id = req.params.id;
+    const body = req.body;
+
+    const query = putCambiarEtapaCandidato(id, body.IdEtapa);
+
+
+    //se ejecuta el query 
+    connection.query(query, (error, results) => {
+        if (error) throw error;
+
+        //respuesta del query
+        res.json({
+            ok: true,
+            message: 'Etapa del candidato actualizada',
+            data: results
+        })
+
+    });
+
+}
+
+//get
+const getCandidatosPorPosicion = async (req, res = response) => {
+
+    const connection = mysql.createConnection(config);
+
+    connection.connect(function (error) {
+        if (error) throw error;
+    });
+
+    //obtiene el id del candidato
+    const id = req.params.id;
+    const idPosicion =  req.params.idPosicion;
+
+    //Enviar el id del candidato como parametro al query
+    const query = getCandidatoPosicion(id, idPosicion)
+
+    //se ejecuta el query 
+    connection.query(query, (error, results) => {
+        if (error) throw error;
+
+        //respuesta del query
+        res.json({
+            ok: true,
+            message: 'Posicion por candidatos obtenidos correctamente',
+            data: results
+        });
+
+    })
+}
+
+//post
+const crearCandidato = async (req, res = response) => {
+
+    const connection = mysql.createConnection(config);
+
+    connection.connect(function (error) {
+        if (error) throw error;
+    });
+
+    //obtiene el id del candidato
+    const body = req.body;
+
+    const query = postAgregarCandidato(body.IdPosicion, body.IdEtapa, body.NombreCompleto,  body.Email, body.Telefono, body.ResumenExperiencia, body.CartaPresentacion);
+
+
+    //se ejecuta el query 
+    connection.query(query, (error, results) => {
+        if (error) throw error;
+
+        //respuesta del query
+        res.json({
+            ok: true,
+            message: 'Candidato creado',
+            data: results
+        })
+
     });
 
 }

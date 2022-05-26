@@ -28,13 +28,13 @@ const router = Router();
  * @swagger
  * /api/candidate/{id}:
  *  get:
- *    summary: Retorna el candidato por el ID dado
+ *    summary: Devuelve el candidato por el ID dado
  *    tags: [Candidatos]
  *    parameters:
  *      - in: path
  *        name: id
  *        schema:
- *          type: string
+ *          type: integer
  *        required: true
  *        description: Id del candidato
  *    responses:
@@ -57,9 +57,9 @@ router.get('/:id', getCandidateById);
  *     tags: [Candidatos]
  *     parameters:
  *      - in: path
- *        name: id Candidato
+ *        name: id
  *        schema:
- *          type: string
+ *          type: integer
  *        required: true
  *        description: Id del candidato
  *     requestBody:
@@ -70,7 +70,7 @@ router.get('/:id', getCandidateById);
  *             type: object
  *             properties:
  *              IdPosicion:
- *                 type: string
+ *                 type: integer
  *                 description: Id de la posicion
  *                 example: 1
  *              NombreCompleto:
@@ -114,7 +114,7 @@ router.put('/:id', ActualizarCandidateById);
  *      - in: path
  *        name: id
  *        schema:
- *          type: string
+ *          type: integer
  *        required: true
  *        description: Id del candidato
  *    responses:
@@ -132,13 +132,13 @@ router.get('/:id/documents', getDocumentosCandidato);
  * @swagger
  * /api/candidate/{id}/documents:
  *   post:
- *     summary: Actualizar la informacion de candidato.
+ *     summary: Crear un documento para el candidato.
  *     tags: [Candidatos]
  *     parameters:
  *      - in: path
- *        name: id Candidato
+ *        name: id
  *        schema:
- *          type: string
+ *          type: integer
  *        required: true
  *        description: Id del candidato
  *     requestBody:
@@ -151,6 +151,10 @@ router.get('/:id/documents', getDocumentosCandidato);
  *              urlDocumento:
  *                 type: string
  *                 description: URL del documento
+ *                 example: 1
+ *              posicion:
+ *                 type: integer
+ *                 description: ID de la posicion
  *                 example: 1
  *     responses:
  *      200:
@@ -170,9 +174,9 @@ router.post('/:id/documents', crearDocumentoCandidato);
  *     tags: [Candidatos]
  *     parameters:
  *      - in: path
- *        name: id Candidato
+ *        name: id
  *        schema:
- *          type: string
+ *          type: integer
  *        required: true
  *        description: Id del candidato
  *     requestBody:
@@ -220,9 +224,9 @@ router.post('/:id/education', crearEducacionCandidato);
  *     tags: [Candidatos]
  *     parameters:
  *      - in: path
- *        name: id Candidato
+ *        name: id
  *        schema:
- *          type: string
+ *          type: integer
  *        required: true
  *        description: Id del candidato
  *     requestBody:
@@ -233,7 +237,7 @@ router.post('/:id/education', crearEducacionCandidato);
  *             type: object
  *             properties:
  *              idPosicion:
- *                 type: string
+ *                 type: integer
  *                 description: id de la nueva posicion
  *                 example: 1
  *     responses:
@@ -250,19 +254,19 @@ router.put('/:id/move', actualizarPosicionCandidato);
  * @swagger
  * /api/candidate/{id}/questionnaire/{idPregunta}:
  *   post:
- *     summary: Crear una entrada de educacion para el candidato.
+ *     summary: Crear una respuesta a las preguntas del candidato.
  *     tags: [Candidatos]
  *     parameters:
  *      - in: path
- *        name: idCandidato
+ *        name: id
  *        schema:
- *          type: string
+ *          type: integer
  *        required: true
  *        description: Id del candidato
  *      - in: path
  *        name: idPregunta
  *        schema:
- *          type: string
+ *          type: integer
  *        required: true
  *        description: Id de la pregunta
  *     requestBody:
@@ -296,7 +300,7 @@ router.post('/:id/questionnaire/:idPregunta', guardarRespuestaCandidato);
  *      - in: path
  *        name: id
  *        schema:
- *          type: string
+ *          type: integer
  *        required: true
  *        description: Id del candidato
  *    responses:
@@ -318,9 +322,9 @@ router.get('/:id/questionnaires', getCuestionariosCandidato);
  *     tags: [Candidatos]
  *     parameters:
  *      - in: path
- *        name: id Candidato
+ *        name: id
  *        schema:
- *          type: string
+ *          type: integer
  *        required: true
  *        description: Id del candidato
  *     requestBody:
@@ -352,9 +356,9 @@ router.put('/:id/scorecard', actualizarTarjetaPuntuacionCandidato);
  *     tags: [Candidatos]
  *     parameters:
  *      - in: path
- *        name: id Candidato
+ *        name: id
  *        schema:
- *          type: string
+ *          type: integer
  *        required: true
  *        description: Id del candidato
  *     requestBody:
@@ -365,7 +369,7 @@ router.put('/:id/scorecard', actualizarTarjetaPuntuacionCandidato);
  *             type: object
  *             properties:
  *              IdEtapa:
- *                 type: string
+ *                 type: integer
  *                 description: Id de la etapa
  *                 example: 1
  *     responses:
@@ -386,17 +390,17 @@ router.put('/:id/stage', moverCandidatoEtapa);
  *    tags: [Candidatos]
  *    parameters:
  *      - in: path
- *        name: idCompany
+ *        name: id
  *        schema:
- *          type: string
+ *          type: integer
  *        required: true
- *        description: Id de la empresa
+ *        description: Id del candidato
  *      - in: path
  *        name: idPosicion
  *        schema:
- *          type: string
+ *          type: integer
  *        required: true
- *        description: Id del candidato
+ *        description: Id de la posicion
  *    responses:
  *      200:
  *        description: Listado de Candidatos por posicion
@@ -406,7 +410,7 @@ router.put('/:id/stage', moverCandidatoEtapa);
  *              type: array            
  *
  */
-router.get('/:idCompany/:idPosicion', getCandidatosPorPosicion);
+router.get('/:id/:idPosicion', getCandidatosPorPosicion);
 
 /**
  * @swagger
@@ -422,7 +426,7 @@ router.get('/:idCompany/:idPosicion', getCandidatosPorPosicion);
  *             type: object
  *             properties:
  *              IdPosicion:
- *                 type: string
+ *                 type: integer
  *                 description: Id de la posicion
  *                 example: 1
  *              NombreCompleto:
@@ -430,7 +434,7 @@ router.get('/:idCompany/:idPosicion', getCandidatosPorPosicion);
  *                 description: Nombre completo del candidato
  *                 example: 1
  *              IdEtapa:
- *                 type: string
+ *                 type: integer
  *                 description: Email del candidato
  *                 example: 1
  *              Email:
