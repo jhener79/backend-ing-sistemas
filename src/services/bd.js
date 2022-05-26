@@ -198,7 +198,7 @@ const putPosicion = (id, body) => {
     IdCategoria = ${body.IdCtegoria}, IdExperiencia = ${body.IdExperiencia}, 
     IdEducacion = ${body.IdEducacion}, IdCuestionario = ${body.IdCuestionario}, 
     IdPipeline = ${body.IdPipeline}, IdTipoPosicion = ${body.IdTipoPosicion}, 
-    IdEmpresa = ${body.IdEmpresa}, Estado = "${body.Estado} where IdPosicion = ${id}`;
+    IdEmpresa = ${body.IdEmpresa}, Estado = "${body.Estado}" where IdPosicion = ${id}`;
 
   return query;
 
@@ -206,7 +206,7 @@ const putPosicion = (id, body) => {
 
 const putEstadoPosicion = (id, Estado) => {
 
-  const query = `UPDATE posicion SET Estado = "${Estado} where IdPosicion = ${id}"`
+  const query = `UPDATE posicion SET Estado = "${Estado}" where IdPosicion = ${id}`
 
   return query;
 
@@ -214,13 +214,13 @@ const putEstadoPosicion = (id, Estado) => {
 
 const getPosicionEstado = (id, idEstado) => {
 
-  const query = `select * from posicion where Estado = ${idEstado} and IdEmpresa = ${id}"`
+  const query = `select * from posicion where Estado = ${idEstado} and IdEmpresa = ${id}`
 
   return query;
 
 }
 
-const postPosicion = (id, body) => {
+const postPosicion = (body) => {
 
   const query = `INSERT INTO posicion
     (Nombre, Descripcion, Ubicacion, Departamento, Otro_atributo, Etiquetas, 
@@ -233,7 +233,7 @@ const postPosicion = (id, body) => {
     ${body.IdCtegoria}, ${body.IdExperiencia}, 
     ${body.IdEducacion}, ${body.IdCuestionario}, 
     ${body.IdPipeline}, ${body.IdTipoPosicion}, 
-    ${body.IdEmpresa}, "${body.Estado})`;
+    ${body.IdEmpresa}, "${body.Estado})"`;
 
   return query;
 
